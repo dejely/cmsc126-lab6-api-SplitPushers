@@ -9,14 +9,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --page-bg: #f5f1e8;
+  --page-bg: #1c1e2c;
   --panel-bg: #fffdf8;
-  --card-bg: #fffaf1;
+  --card-bg: #5d6e83;
   --card-border: #ddd2bf;
-  --text-main: #1f2933;
-  --text-soft: #5b6470;
+  --text-main: #1c1e2c;
+  --text-soft: #59C1DE;
   --text-muted: #6f7a86;
-  --accent: #7b5d36;
+  --accent: #f0a400;
   --accent-soft: #efe4d3;
   --shadow: 0 12px 30px rgba(46, 38, 27, 0.08);
 }
@@ -153,6 +153,11 @@ dd {
   text-transform: capitalize;
 }
 
+.role{
+  width: 15px;
+  height: 15px;
+}
+
 .tag-row {
   display: flex;
   flex-wrap: wrap;
@@ -161,6 +166,9 @@ dd {
 }
 
 .tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 6px 10px;
   border-radius: 999px;
   background: #f2eadc;
@@ -174,18 +182,51 @@ dd {
   color: var(--text-soft);
 }
 
+.statAttack{
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(221, 210, 191, 0.85);
+  background-image: url("public/icons/StatAttack.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
+.statDefense{
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(221, 210, 191, 0.85);
+  background-image: url("public/icons/StatDefense.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
+.statMagic{
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(221, 210, 191, 0.85);
+  background-image: url("public/icons/StatMagic.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
+.statDiff{
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(221, 210, 191, 0.85);
+  background-image: url("public/icons/StatDiff.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 18px;
-}
-
-.stats-grid div {
-  padding: 12px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(221, 210, 191, 0.85);
 }
 
 .stats-grid dt {
