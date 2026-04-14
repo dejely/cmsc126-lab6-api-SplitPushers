@@ -4,7 +4,11 @@ Download dependencies:
 `npm install`
 
 To run:
-`npm run dev`
+```bash
+bashnpm run dev
+```
 
 Access at:
-`localhost:5173` 
+```bash
+http://localhost:5173
+``` 
