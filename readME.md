@@ -5,7 +5,7 @@ Download dependencies:
 
 To run:
 ```bash
-bashnpm run dev
+npm run dev
 ```
 
 Access at:
