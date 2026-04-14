@@ -112,24 +112,25 @@ function renderChampions(champions: Champion[]) {
           </div>
           <div class="tag-row">
             ${champion.roles
-              .map((role) => `<span class="tag">${role}</span>`)
+              .map((role) => `<span class="tag">
+              <img src="public/icons/${role}.png" alt="${role}" class="role" />${role}</span>`)
               .join('')}
             <span class="tag tag-muted">${champion.resource}</span>
           </div>
           <dl class="stats-grid">
-            <div>
+            <div class="statAttack">
               <dt>Attack</dt>
               <dd>${champion.info.attack}</dd>
             </div>
-            <div>
+            <div class="statDefense">
               <dt>Defense</dt>
               <dd>${champion.info.defense}</dd>
             </div>
-            <div>
+            <div class="statMagic">
               <dt>Magic</dt>
               <dd>${champion.info.magic}</dd>
             </div>
-            <div>
+            <div class="statDiff">
               <dt>Difficulty</dt>
               <dd>${champion.info.difficulty}</dd>
             </div>
