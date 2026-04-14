@@ -10,7 +10,7 @@ type ChampionApi = {
   title: string
   tags: string[]
   partype: string
-  stats: {
+  info: {
     attack: number
     defense: number
     magic: number
@@ -27,7 +27,7 @@ type Champion = {
   title: string
   roles: string[]
   resource: string
-  stats: ChampionApi['stats']
+  info: ChampionApi['info']
   imageUrl: string
 }
 
@@ -82,7 +82,7 @@ async function getChampions() {
         title: champion.title,
         roles: champion.tags,
         resource: champion.partype || 'Mixed',
-        stats: champion.stats,
+        info: champion.info,
         imageUrl: `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion.image.full}`,
       }),
     )
@@ -119,19 +119,19 @@ function renderChampions(champions: Champion[]) {
           <dl class="stats-grid">
             <div>
               <dt>Attack</dt>
-              <dd>${champion.stats.attack}</dd>
+              <dd>${champion.info.attack}</dd>
             </div>
             <div>
               <dt>Defense</dt>
-              <dd>${champion.stats.defense}</dd>
+              <dd>${champion.info.defense}</dd>
             </div>
             <div>
               <dt>Magic</dt>
-              <dd>${champion.stats.magic}</dd>
+              <dd>${champion.info.magic}</dd>
             </div>
             <div>
               <dt>Difficulty</dt>
-              <dd>${champion.stats.difficulty}</dd>
+              <dd>${champion.info.difficulty}</dd>
             </div>
           </dl>
         </article>
