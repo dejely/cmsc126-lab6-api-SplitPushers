@@ -57,28 +57,39 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="spacer"></section>
 `
 
-class Champion{
-  id: string
-  stats: Int16Array
-  tags: object
+class Champion {
+  id: string;
+  stats: any;
+  tags: string[];
 
-  constructor(id: string, stats: Int16Array, tags: object){
+  constructor(id: string, stats: any, tags: string[]) {
     this.id = id;
     this.stats = stats;
     this.tags = tags;
   }
-
 }
 
-async function getChamp(){
-  const response = await fetch("http://ddragon.leagueoflegends.com/cdn/12.6.1/data/en_US/champion.json")
-  const champData = await response.json()
+async function getChamp() {
+  const response = await fetch(
+    "https://ddragon.leagueoflegends.com/cdn/12.6.1/data/en_US/champion.json"
+  );
+
+  const data = await response.json();
+
+  // Get first champion from the list
+  const champs = Object.values(data.data) as any[];
+  const firstChamp = champs[0];
+
+  const champData = new Champion(
+    firstChamp.id,
+    firstChamp.stats,
+    firstChamp.tags
+  );
 
   console.log(champData);
 }
 
 const button = document.getElementById("btn");
-
 button?.addEventListener("click", getChamp);
 
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
