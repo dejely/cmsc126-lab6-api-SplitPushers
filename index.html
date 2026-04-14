@@ -4,14 +4,31 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cmsc126-lab6-api-splitpushers</title>
+    <title>League Champion Directory</title>
   </head>
   <body>
+    <div id="app">
+      <div class="page-shell">
+        <header class="page-header">
+          <p class="eyebrow">League of Legends</p>
+          <h1>Champion Directory</h1>
+          <p class="intro">
+            A complete list of champions in a clean, scroll-friendly layout.
+          </p>
+          <div class="summary" aria-live="polite">
+            <span id="champion-count">Loading champions...</span>
+            <span id="champion-patch" class="patch"></span>
+          </div>
+        </header>
 
-    <button id="btn">
-        Click me to fetch
-    </button>
-    <div id="app"></div>
+        <main>
+          <section class="catalog">
+            <p id="status" class="status" role="status">Loading champion data...</p>
+            <div id="champion-list" class="champion-grid" aria-live="polite"></div>
+          </section>
+        </main>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
