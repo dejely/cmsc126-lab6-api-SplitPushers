@@ -120,6 +120,8 @@ dd {
 }
 
 .champion-card {
+  display: flex;
+  flex-direction: column;
   padding: 18px;
   border: 1px solid var(--card-border);
   border-radius: 22px;
@@ -161,8 +163,10 @@ dd {
 .tag-row {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 8px;
   margin-top: 16px;
+  min-height: 72px;
 }
 
 .tag {
@@ -187,7 +191,7 @@ dd {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(221, 210, 191, 0.85);
-  background-image: url("public/icons/StatAttack.png");
+  background-image: url("/icons/StatAttack.png");
   background-repeat: no-repeat;
   background-position: right top;
 }
@@ -197,7 +201,7 @@ dd {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(221, 210, 191, 0.85);
-  background-image: url("public/icons/StatDefense.png");
+  background-image: url("/icons/StatDefense.png");
   background-repeat: no-repeat;
   background-position: right top;
 }
@@ -207,7 +211,7 @@ dd {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(221, 210, 191, 0.85);
-  background-image: url("public/icons/StatMagic.png");
+  background-image: url("/icons/StatMagic.png");
   background-repeat: no-repeat;
   background-position: right top;
 }
@@ -217,7 +221,7 @@ dd {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(221, 210, 191, 0.85);
-  background-image: url("public/icons/StatDiff.png");
+  background-image: url("/icons/StatDiff.png");
   background-repeat: no-repeat;
   background-position: right top;
 }
@@ -256,6 +260,10 @@ dd {
 
   .champion-card {
     border-radius: 18px;
+  }
+
+  .tag-row {
+    min-height: 0;
   }
 
   .card-header {
