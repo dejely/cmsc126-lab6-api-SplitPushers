@@ -57,4 +57,28 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="spacer"></section>
 `
 
+class Champion{
+  id: string
+  stats: Int16Array
+  tags: object
+
+  constructor(id: string, stats: Int16Array, tags: object){
+    this.id = id;
+    this.stats = stats;
+    this.tags = tags;
+  }
+
+}
+
+async function getChamp(){
+  const response = await fetch("http://ddragon.leagueoflegends.com/cdn/12.6.1/data/en_US/champion.json")
+  const champData = await response.json()
+
+  console.log(champData);
+}
+
+const button = document.getElementById("btn");
+
+button?.addEventListener("click", getChamp);
+
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
