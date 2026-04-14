@@ -78,15 +78,12 @@ async function getChamp() {
 
   // Get first champion from the list
   const champs = Object.values(data.data) as any[];
-  const firstChamp = champs[0];
 
-  const champData = new Champion(
-    firstChamp.id,
-    firstChamp.stats,
-    firstChamp.tags
+  const champList = champs.map(
+    (c) => new Champion(c.id, c.stats, c.tags)
   );
 
-  console.log(champData);
+  console.log(champList);
 }
 
 const button = document.getElementById("btn");
