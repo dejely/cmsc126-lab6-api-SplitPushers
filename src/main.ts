@@ -76,7 +76,7 @@ async function getChamp() {
 
   const data = await response.json();
 
-  // Get first champion from the list
+  // Get whole champ list
   const champs = Object.values(data.data) as any[];
 
   const champList = champs.map(
