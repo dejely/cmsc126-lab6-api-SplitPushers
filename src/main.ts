@@ -1,92 +1,160 @@
 import './style.css'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.ts'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src=${viteLogo} class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+type ChampionApiResponse = {
+  data: Record<string, ChampionApi>
+}
 
-<div class="ticks"></div>
-
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src=${viteLogo} alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
-
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
-
-class Champion {
-  id: string;
-  stats: any;
-  tags: string[];
-
-  constructor(id: string, stats: any, tags: string[]) {
-    this.id = id;
-    this.stats = stats;
-    this.tags = tags;
+type ChampionApi = {
+  id: string
+  name: string
+  title: string
+  tags: string[]
+  partype: string
+  stats: {
+    attack: number
+    defense: number
+    magic: number
+    difficulty: number
+  }
+  image: {
+    full: string
   }
 }
 
-async function getChamp() {
-  const response = await fetch(
-    "https://ddragon.leagueoflegends.com/cdn/12.6.1/data/en_US/champion.json"
-  );
-
-  const data = await response.json();
-
-  // Get whole champ list
-  const champs = Object.values(data.data) as any[];
-
-  const champList = champs.map(
-    (c) => new Champion(c.id, c.stats, c.tags)
-  );
-
-  console.log(champList);
+type Champion = {
+  id: string
+  name: string
+  title: string
+  roles: string[]
+  resource: string
+  stats: ChampionApi['stats']
+  imageUrl: string
 }
 
-const button = document.getElementById("btn");
-button?.addEventListener("click", getChamp);
+function requireElement<T extends HTMLElement>(id: string) {
+  const element = document.getElementById(id) as T | null
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+  if (!element) {
+    throw new Error(`Expected element "#${id}" was not found.`)
+  }
+
+  return element
+}
+
+const championList = requireElement<HTMLDivElement>('champion-list')
+const status = requireElement<HTMLParagraphElement>('status')
+const championCount = requireElement<HTMLSpanElement>('champion-count')
+const championPatch = requireElement<HTMLSpanElement>('champion-patch')
+
+async function getLatestVersion() {
+  const response = await fetch('https://ddragon.leagueoflegends.com/api/versions.json')
+
+  if (!response.ok) {
+    throw new Error('Unable to load the latest Data Dragon version.')
+  }
+
+  const versions = (await response.json()) as string[]
+  const latestVersion = versions[0]
+
+  if (!latestVersion) {
+    throw new Error('No Data Dragon version was returned.')
+  }
+
+  return latestVersion
+}
+
+async function getChampions() {
+  const version = await getLatestVersion()
+  const response = await fetch(
+    `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion.json`,
+  )
+
+  if (!response.ok) {
+    throw new Error('Unable to load champion data.')
+  }
+
+  const data = (await response.json()) as ChampionApiResponse
+  const champions = Object.values(data.data)
+    .map(
+      (champion): Champion => ({
+        id: champion.id,
+        name: champion.name,
+        title: champion.title,
+        roles: champion.tags,
+        resource: champion.partype || 'Mixed',
+        stats: champion.stats,
+        imageUrl: `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion.image.full}`,
+      }),
+    )
+    .sort((first, second) => first.name.localeCompare(second.name))
+
+  return { champions, version }
+}
+
+function renderChampions(champions: Champion[]) {
+  championList.innerHTML = champions
+    .map(
+      (champion) => `
+        <article class="champion-card">
+          <div class="card-header">
+            <img
+              class="champion-avatar"
+              src="${champion.imageUrl}"
+              alt="${champion.name}"
+              loading="lazy"
+              width="72"
+              height="72"
+            />
+            <div>
+              <h2>${champion.name}</h2>
+              <p class="champion-title">${champion.title}</p>
+            </div>
+          </div>
+          <div class="tag-row">
+            ${champion.roles
+              .map((role) => `<span class="tag">${role}</span>`)
+              .join('')}
+            <span class="tag tag-muted">${champion.resource}</span>
+          </div>
+          <dl class="stats-grid">
+            <div>
+              <dt>Attack</dt>
+              <dd>${champion.stats.attack}</dd>
+            </div>
+            <div>
+              <dt>Defense</dt>
+              <dd>${champion.stats.defense}</dd>
+            </div>
+            <div>
+              <dt>Magic</dt>
+              <dd>${champion.stats.magic}</dd>
+            </div>
+            <div>
+              <dt>Difficulty</dt>
+              <dd>${champion.stats.difficulty}</dd>
+            </div>
+          </dl>
+        </article>
+      `,
+    )
+    .join('')
+}
+
+async function loadChampions() {
+  try {
+    const { champions, version } = await getChampions()
+
+    renderChampions(champions)
+    status.textContent = `Showing ${champions.length} champions.`
+    championCount.textContent = `${champions.length} champions`
+    championPatch.textContent = `Patch ${version}`
+  } catch (error) {
+    status.textContent =
+      error instanceof Error
+        ? error.message
+        : 'Something went wrong while loading champions.'
+    championCount.textContent = 'Champion data unavailable'
+  }
+}
+
+void loadChampions()
