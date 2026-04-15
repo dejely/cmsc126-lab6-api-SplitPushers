@@ -105,7 +105,8 @@ function renderChampions(champions: Champion[]) {
               width="72"
               height="72"
             />
-            <div>
+            <div class="card-heading">
+              <p class="champion-id">${champion.id}</p>
               <h2>${champion.name}</h2>
               <p class="champion-title">${champion.title}</p>
             </div>
@@ -118,19 +119,19 @@ function renderChampions(champions: Champion[]) {
             <span class="tag tag-muted">${champion.resource}</span>
           </div>
           <dl class="stats-grid">
-            <div class="statAttack">
+            <div class="stat-card statAttack">
               <dt>Attack</dt>
               <dd>${champion.info.attack}</dd>
             </div>
-            <div class="statDefense">
+            <div class="stat-card statDefense">
               <dt>Defense</dt>
               <dd>${champion.info.defense}</dd>
             </div>
-            <div class="statMagic">
+            <div class="stat-card statMagic">
               <dt>Magic</dt>
               <dd>${champion.info.magic}</dd>
             </div>
-            <div class="statDiff">
+            <div class="stat-card statDiff">
               <dt>Difficulty</dt>
               <dd>${champion.info.difficulty}</dd>
             </div>

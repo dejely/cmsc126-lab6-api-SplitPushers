@@ -10,20 +10,38 @@
     <div id="app">
       <div class="page-shell">
         <header class="page-header">
-          <p class="eyebrow">League of Legends</p>
-          <h1>Champion Directory</h1>
-          <p class="intro">
-            A complete list of champions in a clean, scroll-friendly layout.
-          </p>
-          <div class="summary" aria-live="polite">
-            <span id="champion-count">Loading champions...</span>
-            <span id="champion-patch" class="patch"></span>
+          <div class="header-copy">
+            <p class="eyebrow">League of Legends Archive</p>
+            <h1>Champion Directory</h1>
+            <p class="intro">
+              Scout the full roster of Runeterra with roles, resources, and combat
+              profile data pulled from Riot&apos;s latest patch.
+            </p>
+            <div class="summary" aria-live="polite">
+              <span id="champion-count">Loading champions...</span>
+              <span id="champion-patch" class="patch"></span>
+            </div>
           </div>
+          <aside class="header-aside" aria-label="Champion dossier summary">
+            <p class="header-kicker">Summoner&apos;s Intel</p>
+            <p class="header-note">
+              Live Data Dragon roster with role identity, resource type, and four-point
+              combat scoring for every champion currently in patch rotation.
+            </p>
+            <div class="header-rule" aria-hidden="true"></div>
+            <p class="header-foot">
+              Compare duel pressure, survivability, magic threat, and difficulty at a
+              glance in the roster below.
+            </p>
+          </aside>
         </header>
 
         <main>
           <section class="catalog">
-            <p id="status" class="status" role="status">Loading champion data...</p>
+            <div class="catalog-head">
+              <p class="catalog-label">Roster Index</p>
+              <p id="status" class="status" role="status">Loading champion data...</p>
+            </div>
             <div id="champion-list" class="champion-grid" aria-live="polite"></div>
           </section>
         </main>
